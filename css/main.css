@@ -182,7 +182,7 @@ main {
 }
 
 .login {
-  position: relative;
+    position: relative;
   width: 100%;
   padding: 5em;
   text-align: center;
@@ -202,14 +202,23 @@ main {
   margin-bottom: 5px;
 }
 
+.login-td {
+    width: 50%;
+  height: 30px;
+  margin-bottom: 5px;
+}
+
 .login-label {
+    width: 50%;
   font-size: 15px;
   text-align: right;
   padding-right: 0px;
 }
 
 .login-input {
-  height: 25px;
+    height: 25px;
+    width: 200px;
+    font-size: 15px;
   float: left;
 }
 
