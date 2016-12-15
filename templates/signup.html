@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<main>
+  <section class="signup">
+    <h1>Signup <i class="fa fa-user-plus" aria-hidden="true"></i></h1>
+    <form method="post">
+      <table class="signup">
+        <tbody>
+          <tr class="signup-tr">
+            <td class="signup-label">Username</td>
+            <td class="signup-input">
+              <input type="text" name="username" value="{{values['username']}}">
+            </td>
+            <td class="error">{{errors['username']}}</td>
+          </tr>
+          <tr class="signup-tr">
+            <td class="signup-label">Password</td>
+            <td class="signup-input">
+              <input type="password" name="password" value="{{values['password']}}">
+            </td>
+            <td class="error">{{errors['password']}}</td>
+          </tr>
+          <tr class="signup-tr">
+            <td class="signup-label">Verify Password</td>
+            <td class="signup-input">
+              <input type="password" name="verify" value="{{values['verify']}}">
+            </td>
+            <td class="error">{{errors['verify']}}</td>
+          </tr>
+          <tr class="signup-tr">
+            <td class="signup-label">Email (optional)</td>
+            <td class="signup-input">
+              <input type="text" name="email" value="{{values['email']}}">
+            </td>
+            <td class="error">{{errors['email']}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <input type="submit">
+    </form>
+  </section>
+</main>
+{% endblock %}

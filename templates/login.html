@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<main>
+  <section class="login">
+    <h1>Login <i class="fa fa-sign-in" aria-hidden="true"></i></h1>
+    <form method="post">
+      <table class="login">
+        <tbody>
+          <tr class="login-tr">
+            <td class="login-label">Username</td>
+            <td>
+              <input class="login-input" type="text" name="username" value="{{values['username']}}">
+            </td>
+          </tr>
+          <tr>
+            <td class="login-label">Password</td>
+            <td>
+              <input class="login-input" type="password" name="password" value="{{values['password']}}">
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><div class="error">{{error}}</div></td>
+          </tr>
+        </tbody>
+      </table>
+      <input type="submit">
+    </form>
+  </section>
+</main>
+{% endblock %}

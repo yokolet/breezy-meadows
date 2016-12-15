@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Breezy Meadows Simply Text Blogs</title>
+    <link href="https://fonts.googleapis.com/css?family=Anonymous+Pro:400,700&subset=cyrillic,greek,latin-ext" rel="stylesheet">
+    <link rel="stylesheet" href="/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link type="text/css" rel="stylesheet" href="/css/main.css" />
+  </head>
+  <body>
+    <header class="header">
+      <h1 class="header__title">Breezy Meadows Simply Text Blogs</h1>
+      <i class="fa fa-file-text-o fa-3x" aria-hidden="true"></i>
+    </header>
+    <nav id="drawer" class="nav">
+      <ul class="nav__list">
+        {% if username %}
+        <li class="nav__item"><a href="/blog">Blog <i class="fa fa-file-text-o" aria-hidden="true"></i></a></li>
+        <li class="nav__item"><a href="/blog/newpost">New Post <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></li>
+        <li class="nav__item"><a href="/logout">Logout <i class="fa fa-sign-out" aria-hidden="true"></i></a></li>
+        {% endif %}
+      </ul>
+    </nav>
+    {% block content %}
+    {% endblock %}
+    <footer>
+      <ul>
+        <li><a href="#"><i class="fa fa-envelope-square fa-2x" aria-hidden="true"></i></a></li>
+        <li><a href="#"><i class="fa fa-twitter-square fa-2x" aria-hidden="true"></i></a></li>
+        <li><a href="#"><i class="fa fa-rss-square fa-2x" aria-hidden="true"></i></a></li>
+      </ul>
+    </footer>
+  </body>
+</html>

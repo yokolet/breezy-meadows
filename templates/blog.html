@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<main>
+  <section class="blog">
+    {% for blog in blogs %}
+    <div class="post">
+      <div class="post-heading">
+        <div class="post-title"><a class="link" href="/blog/{{blog.key().id()}}">{{blog.subject}}</a></div>
+        <div class="post-date">{{blog.created.strftime('%b %d, %Y')}}</div>
+      </div>
+      <pre class="post-content">{{blog.content|truncate(400, True)}}</pre>
+    </div>
+    {% endfor %}
+  </section>
+</main>
+{% endblock %}
