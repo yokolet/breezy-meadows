@@ -8,32 +8,32 @@
       <table class="signup">
         <tbody>
           <tr class="signup-tr">
-            <td class="signup-label">Username</td>
-            <td class="signup-input">
-              <input type="text" name="username" value="{{values['username']}}">
+            <td class="signup-td signup-label">Username</td>
+            <td class="signup-td">
+              <input class="signup-input" type="text" name="username" value="{{values['username']}}">
             </td>
-            <td class="error">{{errors['username']}}</td>
+            <td class="signup-td error-short error">{{errors['username']}}</td>
           </tr>
           <tr class="signup-tr">
-            <td class="signup-label">Password</td>
-            <td class="signup-input">
-              <input type="password" name="password" value="{{values['password']}}">
+            <td class="signup-td signup-label">Password</td>
+            <td class="signup-td">
+              <input class="signup-input" type="password" name="password" value="{{values['password']}}">
             </td>
-            <td class="error">{{errors['password']}}</td>
+            <td class="signup-td error-short error">{{errors['password']}}</td>
           </tr>
           <tr class="signup-tr">
-            <td class="signup-label">Verify Password</td>
-            <td class="signup-input">
-              <input type="password" name="verify" value="{{values['verify']}}">
+            <td class="signup-td signup-label">Verify Password</td>
+            <td class="signup-td">
+              <input class="signup-input" type="password" name="verify" value="{{values['verify']}}">
             </td>
-            <td class="error">{{errors['verify']}}</td>
+            <td class="signup-td error-short error">{{errors['verify']}}</td>
           </tr>
           <tr class="signup-tr">
-            <td class="signup-label">Email (optional)</td>
-            <td class="signup-input">
-              <input type="text" name="email" value="{{values['email']}}">
+            <td class="signup-td signup-label">Email (optional)</td>
+            <td class="signup-td">
+              <input class="signup-input" type="text" name="email" value="{{values['email']}}">
             </td>
-            <td class="error">{{errors['email']}}</td>
+            <td class="signup-td error-short error">{{errors['email']}}</td>
           </tr>
         </tbody>
       </table>

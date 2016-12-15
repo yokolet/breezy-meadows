@@ -157,17 +157,24 @@ main {
 }
 
 .signup h1 {
-  font-size: 2em;
+    font-size: 2em;
 }
 
 .signup table {
   float: center;
   padding: 30px;
+  width: 100%;
 }
 
 .signup-tr {
   height: 30px;
   margin-bottom: 5px;
+}
+
+.signup-td {
+    width: 33%;
+    padding: 2px;
+    margin: 0px;
 }
 
 .signup-label {
@@ -177,8 +184,10 @@ main {
 }
 
 .signup-input {
+    width: 100%;
   height: 25px;
   float: left;
+  font-size: 15px;
 }
 
 .login {
@@ -193,6 +202,7 @@ main {
 }
 
 .login table {
+    width: 100%;
   float: center;
   padding: 30px;
 }
@@ -204,7 +214,7 @@ main {
 
 .login-td {
     width: 50%;
-  height: 30px;
+    height: 30px;
   margin-bottom: 5px;
 }
 
@@ -227,6 +237,13 @@ main {
   color: red;
   float: left;
   text-align: left;
+}
+
+.error-short {
+    width: 250px;
+}
+.error-long {
+    width: 500px;
 }
 
 .welcome {
