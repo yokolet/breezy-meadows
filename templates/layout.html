@@ -20,6 +20,14 @@
         <li class="nav__item"><a href="/blog">Blog <i class="fa fa-file-text-o" aria-hidden="true"></i></a></li>
         <li class="nav__item"><a href="/blog/newpost">New Post <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></li>
         <li class="nav__item"><a href="/logout">Logout <i class="fa fa-sign-out" aria-hidden="true"></i></a></li>
+        {% elif on_login %}
+        <li class="nav__item">
+          <a href="/signup">Signup <i class="fa fa-user-plus" aria-hidden="true"></i></a>
+        </li>
+        {% elif on_signup %}
+        <li class="nav__item">
+          <a href="/login">Login <i class="fa fa-sign-in" aria-hidden="true"></i></a>
+        </li>
         {% endif %}
       </ul>
     </nav>

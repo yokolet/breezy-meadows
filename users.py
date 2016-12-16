@@ -19,7 +19,7 @@ error_messages = {'username': "That's not a valid username.",
 
 class SignupHandler(utils.Handler):
     def get(self):
-        self.render("signup.html", errors={}, values={})
+        self.render("signup.html", on_signup="on_singup", errors={}, values={})
 
     def post(self):
         username = self.request.get("username")
@@ -52,7 +52,7 @@ class SignupHandler(utils.Handler):
                       email = email)
 
         if have_error:
-            self.render("signup.html", errors = errors, values = values)
+            self.render("signup.html", on_signup="on_singup", errors = errors, values = values)
         else:
             self.register(values)
 
@@ -60,7 +60,7 @@ class SignupHandler(utils.Handler):
         user = models.User.by_name(values['username'])
         if user:
             errors = dict(username = 'That user already exists.')
-            self.render("signup.html", errors = errors, values = values)
+            self.render("signup.html", on_signup="on_signup", errors = errors, values = values)
         else:
             user = models.User.register(values['username'], values['password'], values['email'])
             user.put()
@@ -81,7 +81,7 @@ class WelcomeHandler(utils.Handler):
 
 class LoginHandler(utils.Handler):
     def get(self):
-        self.render('login.html', errors = {}, values = {})
+        self.render('login.html', on_login="on_login", errors = {}, values = {})
 
     def post(self):
         username = self.request.get("username")
@@ -93,7 +93,7 @@ class LoginHandler(utils.Handler):
         else:
             error = 'Invalid login'
             values = dict(username = username, password = password)
-            self.render('login.html', error = error, values = values)
+            self.render('login.html', on_login="on_login", error = error, values = values)
         
 class LogoutHandler(utils.Handler):
     def get(self):

@@ -4,7 +4,7 @@
 <main>
   <section class="blog">
     <div class="newpost-heading">
-      <h1>New Post</h1>
+      <h1>{{title}}</h1>
     </div>
     <form method="post">
       <table>
@@ -27,7 +27,13 @@
           </tr>
           <tr>
             <td></td>
-            <td><input type="submit"></td>
+            <td>
+              {% if title=="Edit Post" %}
+              <input class="cancel-btn" type="submit" name="submit"
+                     value="Cancel">
+              {% endif %}
+              <input type="submit" name="submit" value="Submit">
+            </td>
           </tr>
         </tbody>
       </table>

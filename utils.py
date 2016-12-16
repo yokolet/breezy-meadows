@@ -39,13 +39,23 @@ class Handler(webapp2.RequestHandler):
         if cookie_val:
             return check_secure_val(cookie_val)
 
-    def render_with_valid_user(self, template, **kw):
+    def get_user(self):
         user_id = self.read_secure_cookie('user_id')
         if user_id:
-            user = models.User.by_id(int(user_id))
-            if user:
-                self.render(template, username=user.username, **kw)
-            else:
-                self.redirect('/')
+            return models.User.by_id(int(user_id))
+
+    def render_with_valid_user(self, template, **kw):
+        user = self.get_user()
+        if user:
+            self.render(template, username=user.username, **kw)
         else:
             self.redirect('/')
+
+    def set_post_id(self, post_id):
+        self.response.headers.add_header('Set-Cookie', 'post_id=%s; Path=/' % post_id)
+
+    def get_post_id(self):
+        return self.request.cookies.get('post_id')
+
+    def invalidate_post_id(self):
+        self.response.headers.add_header('Set-Cookie', 'post_id=; Path=/')

@@ -5,11 +5,23 @@
   <section class="blog">
     <div class="post">
       <div class="post-heading">
-        <div class="post-title">{{blog.subject}}</div>
+        <div class="post-title">{{blog.subject}}
+          <i class="fa fa-user-circle"
+             aria-hidden="true"></i>{{blog.author.username}}
+        </div>
         <div class="post-date">{{blog.created.strftime('%b %d, %Y')}}</div>
       </div>
       <pre class="post-content">{{blog.content}}</pre>
     </div>
+    {% if blog.author.username == username %}
+    <div class="post-edit">
+      <form method="post">
+        <input type="hidden" name="post_id" value="{{ident}}">
+        <input class="delete-btn" type="submit" name="submit" value="Delete">
+        <input type="submit" name="submit" value="Edit">
+      </form>
+    </div>
+    {% endif %}
   </section>
 </main>
 {% endblock %}

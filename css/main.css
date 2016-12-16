@@ -39,6 +39,14 @@ input[type=submit] {
   font-size: 1.2em;
 }
 
+.delete-btn {
+    color: #ee2222;
+}
+
+.cancel-btn {
+    color: #2222ee;
+}
+
 textarea {
   width: 500px;
   height: 400px;
@@ -280,6 +288,11 @@ main {
   width: 500px;
   height: 24px;
   font-size: 15px;
+}
+
+.post-edit {
+    width: 50%;
+    float: right;
 }
 
 footer {

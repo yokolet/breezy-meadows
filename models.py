@@ -62,6 +62,8 @@ class User(db.Model):
             return user
 
 class Blog(db.Model):
+    author = db.ReferenceProperty(User, required = True)
     subject = db.StringProperty(required = True)
     content = db.TextProperty(required = True)
     created = db.DateTimeProperty(auto_now_add = True)
+    last_modified = db.DateTimeProperty(auto_now = True)
