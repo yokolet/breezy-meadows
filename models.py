@@ -61,17 +61,16 @@ class User(db.Model):
         if user and validate_pw(username, pw, user.pw_hash):
             return user
 
-class Comment(db.Model):
-    author = db.ReferenceProperty(User, required = True)
-    blog = db.ReferenceProperty(User, required = True)
-    comment = db.StringProperty(required = True)
-    created = db.DateTimeProperty(auto_now_add = True)
-
 class Blog(db.Model):
     author = db.ReferenceProperty(User, required = True)
     subject = db.StringProperty(required = True)
     content = db.TextProperty(required = True)
     upvotes = db.IntegerProperty(default=0L)
-    comment = db.ReferenceProperty(Comment, collection_name='comments')
     created = db.DateTimeProperty(auto_now_add = True)
     last_modified = db.DateTimeProperty(auto_now = True)
+
+class Comment(db.Model):
+    author = db.ReferenceProperty(User, required = True)
+    blog = db.ReferenceProperty(Blog, required = True, collection_name='comments')
+    content = db.StringProperty(required = True)
+    created = db.DateTimeProperty(auto_now_add = True)

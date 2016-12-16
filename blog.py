@@ -83,16 +83,28 @@ class EditPostHandler(utils.Handler):
 class SinglePostHandler(utils.Handler):
     def get(self, ident):
         blog = models.Blog.get_by_id(long(ident))
-        self.render_with_valid_user('single_post.html', blog=blog)
+        post_comments = sorted(blog.comments, key=lambda x: x.created)
+        self.render_with_valid_user('single_post.html', blog=blog, post_comments=post_comments)
 
     def post(self, ident):
         op = self.request.get('submit')
-        print(ident)
         print(op)
         if op == 'Edit':
             self.redirect('/blog/editpost/%s' % ident)
         elif op == 'Delete':
             self.redirect('/blog/deletepost/%s' % ident)
+        elif op == 'Add':
+            blog = models.Blog.get_by_id(long(ident))
+            user = self.get_user()
+            print(blog)
+            print(user)
+            if blog and user:
+                comment_content = self.request.get('comment')
+                comment = models.Comment(author=user, blog=blog, content=comment_content)
+                comment.put()
+            self.redirect('/blog/%s' % ident)
+        else:
+            self.redirect('/blog/%s' % ident)
 
 class UpvotePostHandler(utils.Handler):
     def get(self, ident):

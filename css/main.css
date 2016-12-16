@@ -30,8 +30,8 @@ ul {
 }
 
 input[type=submit] {
-  padding:5px 15px; 
-  background:#ccc; 
+  padding:5px 15px;
+  background:#ccc;
   border:0 none;
   cursor:pointer;
   -webkit-border-radius: 5px;
@@ -293,6 +293,43 @@ main {
 .post-edit {
     width: 50%;
     float: right;
+}
+
+.comments {
+  width: 100%;
+  padding: 0em 5em 1em 5em;
+  color: #302c4c;
+  text-align: left;
+}
+
+.comment-line {
+  position: relative;
+  border-bottom: 1px solid #666;
+}
+
+.comment-author {
+  font-size: 15px;
+}
+
+.comment-content {
+  position: absolute;
+  left: 20%;
+  bottom: 0px;
+  font-size: 15px;
+}
+
+.comments input[type=text] {
+    width: 500px;
+}
+
+.comments input[type=submit] {
+  padding:3px 10px;
+  background:#ddd;
+  border:0 none;
+  cursor:pointer;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  font-size: 1.0em;
 }
 
 footer {
