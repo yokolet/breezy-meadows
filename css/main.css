@@ -304,7 +304,7 @@ main {
 
 .comment-line {
   position: relative;
-  border-bottom: 1px solid #666;
+  border-bottom: 1px solid #eee;
 }
 
 .comment-author {
@@ -318,18 +318,34 @@ main {
   font-size: 15px;
 }
 
+.comment-action {
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+}
+
+.comments .comment-action input[type=submit] {
+  font-size: 12px;
+  padding:2px 2px;
+  background:#eee;
+  border:0 none;
+  cursor:pointer;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+}
+
 .comments input[type=text] {
     width: 500px;
 }
 
 .comments input[type=submit] {
-  padding:3px 10px;
+  padding:1px 8px;
   background:#ddd;
   border:0 none;
   cursor:pointer;
   -webkit-border-radius: 5px;
   border-radius: 5px;
-  font-size: 1.0em;
+  font-size: 12px;
 }
 
 footer {

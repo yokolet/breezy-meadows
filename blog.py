@@ -53,7 +53,7 @@ class EditPostHandler(utils.Handler):
     def get(self, ident):
         blog = models.Blog.get_by_id(long(ident))
         if blog and (blog.author.key().id() == self.get_user().key().id()):
-            self.render('newpost.html', title='Edit Post',
+            self.render('newpost.html', title='Edit Post', username=self.get_user(),
                         subject=blog.subject, content=blog.content)
         else:
             self.redirect('/blog')
@@ -65,7 +65,8 @@ class EditPostHandler(utils.Handler):
             self.redirect(path)
         else:
             blog = models.Blog.get_by_id(long(ident))
-            if blog and (blog.author.key().id() == self.get_user().key().id()):
+            user = self.get_user()
+            if blog and (blog.author.key().id() == user.key().id()):
                 subject = self.request.get('subject')
                 content = self.request.get('content')
                 if subject and content:
@@ -75,7 +76,7 @@ class EditPostHandler(utils.Handler):
                     self.redirect(path) # with key, permlink
                 else:
                     error = "we need both a subject and some content!"
-                    self.render('newpost.html', title='Edit Post',
+                    self.render('newpost.html', title='Edit Post', username=user.username,
                                 subject=subject, content=content, error=error)
             else:
                 self.redirect('/blog')
@@ -103,6 +104,36 @@ class SinglePostHandler(utils.Handler):
                 comment = models.Comment(author=user, blog=blog, content=comment_content)
                 comment.put()
             self.redirect('/blog/%s' % ident)
+        elif op == 'Update':
+            blog = models.Blog.get_by_id(long(ident))
+            user = self.get_user()
+            if blog and user:
+                comment_id = self.request.get('comment_id')
+                comment = models.Comment.get_by_id(long(comment_id))
+                comment_content = self.request.get('comment')
+                if comment:
+                    comment.content = comment_content
+                    comment.put()
+            self.redirect('/blog/%s' % ident)
+        elif op == 'Delete Comment':
+            comment_id = self.request.get('comment_id')
+            comment = models.Comment.get_by_id(long(comment_id))
+            if comment.author.key().id() == self.get_user().key().id():
+                comment.delete()
+            self.redirect('/blog/%s' % ident)
+        elif op == 'Edit Comment':
+            comment_id = self.request.get('comment_id')
+            comment = models.Comment.get_by_id(long(comment_id))
+            print(comment_id)
+            print(comment.content)
+            print(comment.author)
+            print(self.get_user())
+            if comment and (comment.author.key().id() == self.get_user().key().id()):
+                blog = models.Blog.get_by_id(long(ident))
+                post_comments = sorted(blog.comments, key=lambda x: x.created)
+                print(post_comments)
+                self.render('single_post.html', blog=blog, username=self.get_user().username,
+                            post_comments=post_comments, edit_comment=comment)
         else:
             self.redirect('/blog/%s' % ident)
 

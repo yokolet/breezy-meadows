@@ -37,14 +37,32 @@
     <div class="comment-line">
       <div class="comment-author">{{comment.author.username}} says:</div>
       <div class="comment-content">{{comment.content}}</div>
+      {% if comment.author.username == username %}
+      <form method="post">
+        <div class="comment-action">
+          <input type="hidden" name="comment_id" value="{{comment.key().id()}}">
+          <input class="delete-btn" type="submit" name="submit" value="Delete Comment">
+          <input type="submit" name="submit" value="Edit Comment">
+        </div>
+      </form>
+      {% endif %}
     </div>
     {% endfor %}
     {% if username %}
-    <b>New comment:</b>
-    <form method="post">
-      <input type="text" name="comment">
-      <input type="submit" name="submit" value="Add">
-    </form>
+      {% if edit_comment %}
+      <b>Edit comment:</b>
+      <form method="post">
+          <input type="hidden" name="comment_id" value="{{edit_comment.key().id()}}">
+          <input type="text" name="comment" value="{{edit_comment.content}}">
+        <input class="comment-add" type="submit" name="submit" value="Update">
+      </form>
+      {% else %}
+      <b>New comment:</b>
+      <form method="post">
+        <input type="text" name="comment">
+        <input class="comment-add" type="submit" name="submit" value="Add">
+      </form>
+      {% endif %}
     {% endif %}
   </section>
 </main>
