@@ -6,11 +6,21 @@ import utils
 from google.appengine.ext import db
 
 class BlogHandler(utils.Handler):
+    """This handler is responsible to list blog posts.
+
+    It gets the latest 10 blog posts and renders. Only when a user is logged-in,
+    the blog is avalible to read.
+    """
     def get(self):
         blogs = db.GqlQuery("SELECT * FROM Blog ORDER BY created DESC limit 10;")
         self.render_with_valid_user('blog.html', blogs=blogs)
 
 class NewPostHandler(utils.Handler):
+    """This handler is responsible to show a new post form and create a new post.
+
+    When a user is logged-in, the new psot form will show up. The new post will be
+    created with both subject and content.
+    """
     def render_newpost(self, subject="", content="", error=""):
         self.render_with_valid_user('newpost.html', title="New Post",
                                     subject=subject, content=content, error=error)
@@ -21,9 +31,9 @@ class NewPostHandler(utils.Handler):
     def post(self):
         subject = self.request.get('subject')
         content = self.request.get('content')
+        user = self.get_user()
 
-        if subject and content:
-            user = self.get_user()
+        if user and subject and content:
             blog = models.Blog(author=user, subject=subject, content=content)
             blog.put()
             # getkey
@@ -34,6 +44,11 @@ class NewPostHandler(utils.Handler):
             self.render_newpost(subject, content, error)
 
 class DeletePostHandler(utils.Handler):
+    """This Handler is responsible for deleting a post.
+
+    The deletion has two steps, first click Delete button followed by clicking Confirm Delete
+    button.
+    """
     def get(self, ident):
         blog = models.Blog.get_by_id(long(ident))
         if blog and (blog.author.key().id() == self.get_user().key().id()):
@@ -50,6 +65,12 @@ class DeletePostHandler(utils.Handler):
         self.redirect('/blog')
 
 class EditPostHandler(utils.Handler):
+    """This handler is responsible for editing a blog post.
+
+    Only when a logged-in user is an author of the post, an edit form shows up.
+    The user has a choice to cancel. The user updated content or subject, and clicks
+    Submit button, the post will be updated.
+    """
     def get(self, ident):
         blog = models.Blog.get_by_id(long(ident))
         if blog and (blog.author.key().id() == self.get_user().key().id()):
@@ -82,6 +103,15 @@ class EditPostHandler(utils.Handler):
                 self.redirect('/blog')
 
 class SinglePostHandler(utils.Handler):
+    """This handler is responsible for a couple of features tied to the blog post shown.
+
+    1. Shows only one post with title, content, user name, number of likes so far
+    2. Has a like button to upvote
+    3. Shows comments if there's any
+    4. Shows a form to add a comment
+    5. If the author of comments are the current logged-in user, delete/edit comments buttons
+       are show up.
+    """
     def get(self, ident):
         blog = models.Blog.get_by_id(long(ident))
         post_comments = sorted(blog.comments, key=lambda x: x.created)
@@ -138,6 +168,11 @@ class SinglePostHandler(utils.Handler):
             self.redirect('/blog/%s' % ident)
 
 class UpvotePostHandler(utils.Handler):
+    """This handler is responsible for counting up upvotes (a.k.a likes)
+
+    If a current user is not the author of the post, the user can upvote(or like)
+    the post.
+    """
     def get(self, ident):
         blog = models.Blog.get_by_id(long(ident))
         if blog and (blog.author.key().id() != self.get_user().key().id()):

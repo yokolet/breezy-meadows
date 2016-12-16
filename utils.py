@@ -20,6 +20,9 @@ def check_secure_val(secure_val):
         return val
 
 class Handler(webapp2.RequestHandler):
+    """This handler is a base handler for other handlers and has
+    many handy utility functions.
+    """
     def write(self, *a, **kw):
         self.response.out.write(*a, **kw)
 

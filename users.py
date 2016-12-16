@@ -4,7 +4,6 @@ import webapp2
 import models
 import utils
 
-### Controler and View
 patterns = {'username': re.compile(r'^[a-zA-Z0-9_-]{3,20}$'),
             'password': re.compile(r'^.{3,20}$'),
             'email': re.compile(r'^[\S]+@[\S]+.[\S]+$')}
@@ -18,6 +17,12 @@ error_messages = {'username': "That's not a valid username.",
                   'email': "That's not a valid email."}
 
 class SignupHandler(utils.Handler):
+    """This handler is resonsible to manage a signup.
+
+    The handler shows a signup form. When parameters are posted,
+    it checks the parameters. If there's no error or conflict,
+    a new user will be created and redirect to a welcome page.
+    """
     def get(self):
         self.render("signup.html", on_signup="on_singup", errors={}, values={})
 
@@ -68,6 +73,10 @@ class SignupHandler(utils.Handler):
             self.redirect('/welcome')
 
 class WelcomeHandler(utils.Handler):
+    """This handler is responsible to show welcome page.
+
+    When a user succesfully logged-in or signup-ed, this page will show up.
+    """
     def get(self):
         user_id = self.read_secure_cookie('user_id')
         if user_id:
@@ -80,8 +89,19 @@ class WelcomeHandler(utils.Handler):
             self.redirect('/signup')
 
 class LoginHandler(utils.Handler):
+    """This handler is responsible to allow users to log in.
+
+    When a user is already logged-in, the page will be redirected to the welcome page.
+    Otherwise, it shows a login form. Parameters in the input fields are validated.
+    If the input parameters are matched to a redigered user, the welcome pages will show up.
+    If there's an error, the error message appears.
+    """
     def get(self):
-        self.render('login.html', on_login="on_login", errors = {}, values = {})
+        user = self.get_user()
+        if user:
+            self.redirect('/welcome')
+        else:
+            self.render('login.html', on_login="on_login", errors = {}, values = {})
 
     def post(self):
         username = self.request.get("username")
@@ -96,6 +116,7 @@ class LoginHandler(utils.Handler):
             self.render('login.html', on_login="on_login", error = error, values = values)
         
 class LogoutHandler(utils.Handler):
+    """This handler is responsible to logout a user."""
     def get(self):
         self.response.headers.add_header('Set-Cookie', 'user_id=; Path=/')
         self.redirect('/')
