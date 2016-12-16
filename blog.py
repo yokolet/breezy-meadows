@@ -37,9 +37,17 @@ class DeletePostHandler(utils.Handler):
     def get(self, ident):
         blog = models.Blog.get_by_id(long(ident))
         if blog and (blog.author.key().id() == self.get_user().key().id()):
-            self.render('single_post.html', op="delete-confirm", blog=blog)
+            self.render_with_valid_user('single_post.html', op='delete-confirm', blog=blog)
         else:
             self.redirect('/blog')
+
+    def post(self, ident):
+        op = self.request.get('submit')
+        if op == 'Confirm Delete':
+            blog = models.Blog.get_by_id(long(ident))
+            if blog and (blog.author.key().id() == self.get_user().key().id()):
+                blog.delete()
+        self.redirect('/blog')
 
 class EditPostHandler(utils.Handler):
     def get(self, ident):

@@ -50,12 +50,3 @@ class Handler(webapp2.RequestHandler):
             self.render(template, username=user.username, **kw)
         else:
             self.redirect('/')
-
-    def set_post_id(self, post_id):
-        self.response.headers.add_header('Set-Cookie', 'post_id=%s; Path=/' % post_id)
-
-    def get_post_id(self):
-        return self.request.cookies.get('post_id')
-
-    def invalidate_post_id(self):
-        self.response.headers.add_header('Set-Cookie', 'post_id=; Path=/')

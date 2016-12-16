@@ -16,9 +16,12 @@
     {% if blog.author.username == username %}
     <div class="post-edit">
       <form method="post">
-        <input type="hidden" name="post_id" value="{{ident}}">
+        {% if op and op == "delete-confirm" %}
+        <input class="delete-btn" type="submit" name="submit" value="Confirm Delete">
+        {% else %}
         <input class="delete-btn" type="submit" name="submit" value="Delete">
         <input type="submit" name="submit" value="Edit">
+        {% endif %}
       </form>
     </div>
     {% endif %}
