@@ -5,9 +5,14 @@
   <section class="blog">
     <div class="post">
       <div class="post-heading">
-        <div class="post-title">{{blog.subject}}
-          <i class="fa fa-user-circle"
-             aria-hidden="true"></i>{{blog.author.username}}
+        <div class="post-title">
+          {{blog.subject}}
+          <i class="fa fa-user-circle" aria-hidden="true"></i>
+          {{blog.author.username}},
+          like: {{blog.upvotes}}
+          {% if blog.author.username != username %}
+          <a href="/blog/upvote/{{blog.key().id()}}"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a>
+          {% endif %}
         </div>
         <div class="post-date">{{blog.created.strftime('%b %d, %Y')}}</div>
       </div>

@@ -90,14 +90,22 @@ class SinglePostHandler(utils.Handler):
         print(ident)
         print(op)
         if op == 'Edit':
-            path = '/blog/editpost/%s' % ident
-            self.redirect(path)
+            self.redirect('/blog/editpost/%s' % ident)
         elif op == 'Delete':
             self.redirect('/blog/deletepost/%s' % ident)
+
+class UpvotePostHandler(utils.Handler):
+    def get(self, ident):
+        blog = models.Blog.get_by_id(long(ident))
+        if blog and (blog.author.key().id() != self.get_user().key().id()):
+            blog.upvotes = blog.upvotes + 1
+            blog.put()
+        self.redirect('/blog/%s' % ident)
 
 app = webapp2.WSGIApplication([('/blog', BlogHandler),
                                ('/blog/newpost', NewPostHandler),
                                (r'/blog/editpost/(\d+)', EditPostHandler),
                                (r'/blog/deletepost/(\d+)', DeletePostHandler),
+                               (r'/blog/upvote/(\d+)', UpvotePostHandler),
                                (r'/blog/(\d+)', SinglePostHandler)],
                               debug=True)

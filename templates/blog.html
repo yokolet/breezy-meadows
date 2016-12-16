@@ -9,7 +9,9 @@
         <div class="post-title">
           <a class="link"
              href="/blog/{{blog.key().id()}}">{{blog.subject}}</a>
-            <i class="fa fa-user-circle" aria-hidden="true"></i>{{blog.author.username}}
+          <i class="fa fa-user-circle" aria-hidden="true"></i>
+          {{blog.author.username}},
+          like: {{blog.upvotes}}
         </div>
         <div class="post-date">{{blog.created.strftime('%b %d, %Y')}}</div>
       </div>
