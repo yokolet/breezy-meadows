@@ -1,6 +1,7 @@
 import utils
 import webapp2
 
+
 class MainPage(utils.Handler):
     """This handler is responsible to show top page.
 

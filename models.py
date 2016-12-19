@@ -4,10 +4,12 @@ import string
 
 from google.appengine.ext import db
 
-### Model
-def make_salt(length = 5):
+
+# Model
+def make_salt(length=5):
     """A function to create a salt of given lenght, 5 by default"""
     return ''.join(random.choice(string.letters) for _ in xrange(length))
+
 
 def make_pw_hash(name, pw, salt=None):
     """A fucntion to create a password hash with a salt.
@@ -20,29 +22,32 @@ def make_pw_hash(name, pw, salt=None):
     h = hashlib.sha256(name + pw + salt).hexdigest()
     return '%s,%s' % (salt, h)
 
+
 def validate_pw(name, pw, h):
     """A function to validate password against saved hash. """
     salt = h.split(',')[0]
     return h == make_pw_hash(name, pw, salt)
 
-def users_key(group = 'default'):
+
+def users_key(group='default'):
     """A function to get users' key"""
     return db.Key.from_path('users', group)
+
 
 class User(db.Model):
     """User model class
 
-    Each user has username, password hash, email, and the datetime this user was created.
-    By reference, each User will have comment_set.
+    Each user has username, password hash, email, and the datetime this user
+    was created. By reference, each User will have comment_set.
     """
-    username = db.StringProperty(required = True)
-    pw_hash = db.StringProperty(required = True)
+    username = db.StringProperty(required=True)
+    pw_hash = db.StringProperty(required=True)
     email = db.EmailProperty()
-    created = db.DateTimeProperty(auto_now_add = True)
+    created = db.DateTimeProperty(auto_now_add=True)
 
     @classmethod
     def by_id(cls, uid):
-        return User.get_by_id(uid, parent = users_key())
+        return User.get_by_id(uid, parent=users_key())
 
     @classmethod
     def by_name(cls, username):
@@ -53,14 +58,14 @@ class User(db.Model):
     def register(cls, username, password, email=None):
         pw_hash = make_pw_hash(username, password)
         if email:
-            return User(parent = users_key(),
-                        username = username,
-                        pw_hash = pw_hash,
-                        email = email)
+            return User(parent=users_key(),
+                        username=username,
+                        pw_hash=pw_hash,
+                        email=email)
         else:
-            return User(parent = users_key(),
-                        username = username,
-                        pw_hash = pw_hash)
+            return User(parent=users_key(),
+                        username=username,
+                        pw_hash=pw_hash)
 
     @classmethod
     def validate_user(cls, name, pw):
@@ -74,25 +79,28 @@ class User(db.Model):
         if user and validate_pw(username, pw, user.pw_hash):
             return user
 
+
 class Blog(db.Model):
     """Blog model class.
 
     Blog has an author, subject, content, upvotes, and created datetime.
     By aggregation, each Blog instance will have multiple comments."
     """
-    author = db.ReferenceProperty(User, required = True)
-    subject = db.StringProperty(required = True)
-    content = db.TextProperty(required = True)
+    author = db.ReferenceProperty(User, required=True)
+    subject = db.StringProperty(required=True)
+    content = db.TextProperty(required=True)
     upvotes = db.IntegerProperty(default=0L)
-    created = db.DateTimeProperty(auto_now_add = True)
-    last_modified = db.DateTimeProperty(auto_now = True)
+    created = db.DateTimeProperty(auto_now_add=True)
+    last_modified = db.DateTimeProperty(auto_now=True)
+
 
 class Comment(db.Model):
     """Comment model class.
 
     Comment had an reference to author and blog, content, created datetime.
     """
-    author = db.ReferenceProperty(User, required = True)
-    blog = db.ReferenceProperty(Blog, required = True, collection_name='comments')
-    content = db.StringProperty(required = True)
-    created = db.DateTimeProperty(auto_now_add = True)
+    author = db.ReferenceProperty(User, required=True)
+    blog = db.ReferenceProperty(Blog, required=True,
+                                collection_name='comments')
+    content = db.StringProperty(required=True)
+    created = db.DateTimeProperty(auto_now_add=True)

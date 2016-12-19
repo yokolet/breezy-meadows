@@ -6,18 +6,21 @@ import webapp2
 import models
 
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
-jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir),
-                               autoescape = True)
+jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader(template_dir),
+                               autoescape=True)
 
 secret = 'UcEkaOs*@V^cYA-~oDK&'
 
+
 def make_secure_val(val):
     return '%s|%s' % (val, hmac.new(secret, val).hexdigest())
+
 
 def check_secure_val(secure_val):
     val = secure_val.split('|')[0]
     if secure_val == make_secure_val(val):
         return val
+
 
 class Handler(webapp2.RequestHandler):
     """This handler is a base handler for other handlers and has
@@ -35,7 +38,8 @@ class Handler(webapp2.RequestHandler):
 
     def set_secure_cookie(self, name, val):
         cookie_val = make_secure_val(val)
-        self.response.headers.add_header('Set-Cookie', '%s=%s; Path=/' % (name, cookie_val))
+        self.response.headers.add_header('Set-Cookie',
+                                         '%s=%s; Path=/' % (name, cookie_val))
 
     def read_secure_cookie(self, name):
         cookie_val = self.request.cookies.get(name)
