@@ -12,9 +12,15 @@ On the top directory, start the server:
 $ dev_appserver.py .
 ```
 
+Optionally, datastore path can be set when the server starts:
+
+```bash
+$ dev_appserver.py --datastore_path=[PATH_TO_DATASTORE] .
+```
+
+
 Once the server starts up, go to the browser and request:
 
 ```
 http://localhost:8080/
 ```
-
