@@ -83,13 +83,20 @@ class User(db.Model):
 class Blog(db.Model):
     """Blog model class.
 
-    Blog has an author, subject, content, upvotes, and created datetime.
-    By aggregation, each Blog instance will have multiple comments."
+    Blog has attributes:
+        author: reference to a user who wrote a blog
+        subject: string, a subjet of a blog
+        content: text, a content of a blog
+        upvotes: integer, a total number of voted (liked)
+        voted_users: list of long, a list of user ids who voted
+        created: datetime, the time a blog was created
+    By reference, each Blog instance will have multiple comments."
     """
     author = db.ReferenceProperty(User, required=True)
     subject = db.StringProperty(required=True)
     content = db.TextProperty(required=True)
     upvotes = db.IntegerProperty(default=0L)
+    voted_users = db.ListProperty(long)
     created = db.DateTimeProperty(auto_now_add=True)
     last_modified = db.DateTimeProperty(auto_now=True)
 
@@ -97,7 +104,7 @@ class Blog(db.Model):
 class Comment(db.Model):
     """Comment model class.
 
-    Comment had an reference to author and blog, content, created datetime.
+    Comment has a reference to an author and blog, content, created datetime.
     """
     author = db.ReferenceProperty(User, required=True)
     blog = db.ReferenceProperty(Blog, required=True,

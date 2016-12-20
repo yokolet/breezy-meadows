@@ -13,7 +13,8 @@ class BlogHandler(utils.Handler):
     logged-in, the blog is avalible to read.
     """
     def get(self):
-        blogs = db.GqlQuery("SELECT * FROM Blog ORDER BY created DESC limit 10;")
+        query = "SELECT * FROM Blog ORDER BY created DESC limit 10;"
+        blogs = db.GqlQuery(query)
         self.render_with_valid_user('blog.html', blogs=blogs)
 
 
@@ -181,17 +182,21 @@ class SinglePostHandler(utils.Handler):
 
 
 class UpvotePostHandler(utils.Handler):
-    """This handler is responsible for counting up upvotes (a.k.a likes)
+    """This handler is responsible for counting up votes (a.k.a likes)
 
     If a current user is not the author of the post, the user can
     upvote(or like) the post.
     """
     def get(self, ident):
         blog = models.Blog.get_by_id(long(ident))
-        if blog and (blog.author.key().id() != self.get_user().key().id()):
-            blog.upvotes = blog.upvotes + 1
-            blog.put()
+        user_id = self.get_user().key().id()
+        if blog and (blog.author.key().id() != user_id):
+            if not (user_id in blog.voted_users):
+                blog.voted_users.append(user_id)
+                blog.upvotes = blog.upvotes + 1
+                blog.put()
         self.redirect('/blog/%s' % ident)
+
 
 app = webapp2.WSGIApplication([('/blog', BlogHandler),
                                ('/blog/newpost', NewPostHandler),
